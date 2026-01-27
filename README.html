@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Socar Network — Документы</title>
 
 <style>
@@ -22,6 +22,7 @@
   }
 
   *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
   body{
     margin:0;
     background:var(--bg);
@@ -156,9 +157,7 @@
   }
 
   /* Mini sections */
-  .doc{
-    margin-top:14px;
-  }
+  .doc{ margin-top:14px; }
   .mini{
     padding:14px 0;
     border-top:1px solid var(--line);
@@ -201,14 +200,168 @@
     flex-wrap:wrap;
     justify-content:space-between;
   }
+
+  /* ---------------------------
+     MOBILE ADAPTATION (PHONES)
+     --------------------------- */
+  .brand{
+    display:none; /* only shown on phones */
+    font-size:15px;
+    font-weight:800;
+    color:#111;
+    letter-spacing:-0.2px;
+    text-decoration:none;
+  }
+
+  .menuToggle{
+    display:none; /* only shown on phones */
+    width:40px;
+    height:40px;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:10px;
+    cursor:pointer;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+  }
+  .menuToggle:focus-visible{
+    outline:3px solid rgba(42,171,238,.35);
+    outline-offset:2px;
+  }
+  .menuToggle .bars{
+    width:18px;
+    height:12px;
+    position:relative;
+  }
+  .menuToggle .bars span{
+    position:absolute;
+    left:0;
+    right:0;
+    height:2px;
+    background:#111;
+    border-radius:2px;
+    transition:transform .18s ease, top .18s ease, opacity .18s ease;
+  }
+  .menuToggle .bars span:nth-child(1){ top:0; }
+  .menuToggle .bars span:nth-child(2){ top:5px; }
+  .menuToggle .bars span:nth-child(3){ top:10px; }
+
+  /* sliding panel */
+  .mobilePanel{
+    display:none; /* enabled on phones */
+    border-top:1px solid var(--line);
+    background:#fff;
+  }
+  .mobilePanelInner{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:10px 14px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .mobileLinks{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .mobileLinks a{
+    padding:10px 10px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    color:#111;
+    font-weight:700;
+    font-size:14px;
+    background:#fff;
+  }
+  .mobileLinks a:active{ transform:translateY(1px); }
+  .mobileBot{
+    display:flex;
+    gap:10px;
+  }
+  .mobileBot .botbtn{
+    width:100%;
+    justify-content:center;
+    padding:11px 12px;
+  }
+
+  /* Phone breakpoint */
+  @media (max-width: 640px){
+    .top{
+      padding:10px 12px;
+      gap:10px;
+    }
+    .menu{ display:none; }         /* hide desktop menu */
+    .top .botbtn{ display:none; }  /* move CTA inside panel */
+    .brand{ display:inline-flex; }
+
+    .menuToggle{
+      display:inline-flex;
+    }
+
+    .container{
+      padding:18px 12px 56px;
+    }
+    h1{
+      font-size:28px;
+      line-height:1.18;
+    }
+    .subtitle{
+      font-size:13.5px;
+      line-height:1.75;
+      margin-bottom:14px;
+    }
+    section{ padding:18px 0; }
+    h2{ font-size:18px; }
+    p, ul{ font-size:13.5px; line-height:1.75; }
+    ul{ margin-left:16px; }
+
+    .note{
+      padding:10px 11px;
+      border-left-width:4px;
+    }
+
+    details{ padding:10px 0; }
+    summary{ font-size:14px; }
+
+    footer{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:8px;
+    }
+
+    .mobilePanel{ display:block; }
+  }
+
+  /* open state */
+  body.menu-open .mobilePanel{ display:block; }
+  body.menu-open .menuToggle .bars span:nth-child(1){ top:5px; transform:rotate(45deg); }
+  body.menu-open .menuToggle .bars span:nth-child(2){ opacity:0; }
+  body.menu-open .menuToggle .bars span:nth-child(3){ top:5px; transform:rotate(-45deg); }
+
+  /* panel animation (optional) */
+  @media (max-width: 640px){
+    .mobilePanel{
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .25s ease;
+    }
+    body.menu-open .mobilePanel{
+      max-height:520px;
+    }
+  }
 </style>
 </head>
 
-<body>
+<body id="top">
 
 <header>
   <div class="top">
-    <nav class="menu">
+    <a class="brand" href="#top" aria-label="Socar Network">Socar Network</a>
+
+    <!-- Desktop menu -->
+    <nav class="menu" aria-label="Primary">
       <a href="#about">О компании</a>
       <a href="#offer">Оферта</a>
       <a href="#privacy">Конфиденциальность</a>
@@ -218,7 +371,34 @@
       <a href="#contacts">Контакты</a>
     </nav>
 
+    <!-- Phone: hamburger -->
+    <button class="menuToggle" id="menuToggle" type="button" aria-label="Открыть меню" aria-expanded="false">
+      <span class="bars" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+
+    <!-- Desktop CTA -->
     <a class="botbtn" href="https://t.me/socarnetwork_bot" target="_blank" rel="noopener">Открыть бот</a>
+  </div>
+
+  <!-- Phone panel -->
+  <div class="mobilePanel" id="mobilePanel" aria-label="Mobile menu">
+    <div class="mobilePanelInner">
+      <div class="mobileBot">
+        <a class="botbtn" href="https://t.me/socarnetwork_bot" target="_blank" rel="noopener">Открыть бот</a>
+      </div>
+
+      <nav class="mobileLinks" aria-label="Mobile navigation">
+        <a href="#about">О компании</a>
+        <a href="#offer">Оферта</a>
+        <a href="#privacy">Конфиденциальность</a>
+        <a href="#disclaimer">Disclaimer</a>
+        <a href="#legal">Юр. предупреждение</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+    </div>
   </div>
 </header>
 
@@ -569,6 +749,43 @@
     </footer>
   </section>
 </div>
+
+<script>
+  (function () {
+    const toggle = document.getElementById('menuToggle');
+    const panel = document.getElementById('mobilePanel');
+
+    function setOpen(isOpen){
+      document.body.classList.toggle('menu-open', isOpen);
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      toggle.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+    }
+
+    toggle.addEventListener('click', function(){
+      const open = !document.body.classList.contains('menu-open');
+      setOpen(open);
+    });
+
+    // close menu when clicking a link
+    panel.addEventListener('click', function(e){
+      const a = e.target.closest('a');
+      if(!a) return;
+      setOpen(false);
+    });
+
+    // close on Escape
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') setOpen(false);
+    });
+
+    // If switching to desktop width, ensure menu is closed
+    window.addEventListener('resize', function(){
+      if(window.matchMedia('(min-width: 641px)').matches){
+        setOpen(false);
+      }
+    });
+  })();
+</script>
 
 </body>
 </html>
